@@ -179,8 +179,8 @@ input[type="range"]{
 		}
 		function mouseup_minus(){
 			div.querySelector('input').onchange();
-			clearInterval(timerMinus);
 			clearInterval(timeoutMinus);
+			clearInterval(timerMinus);
 		}
 		div.querySelector('.number-minus').addEventListener('mousedown', mousedown_minus)
 		div.querySelector('.number-minus').addEventListener('mouseup', mouseup_minus)
@@ -195,8 +195,8 @@ input[type="range"]{
 		}
 		function mouseup_plus(){
 			div.querySelector('input').onchange();
-			clearInterval(timerPlus);
 			clearInterval(timeoutPlus);
+			clearInterval(timerPlus);
 		}
 		div.querySelector('.number-plus').addEventListener('mousedown', mousedown_plus)
 		div.querySelector('.number-plus').addEventListener('mouseup', mouseup_plus)
