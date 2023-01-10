@@ -77,7 +77,7 @@ input[type="number"] {
 	height: 40px;
 	line-height: 40px;    
 	text-indent: 10px;
-	display: inline-block;
+	display: block;
 	width: 100px;
 	box-sizing: border-box;
 	border: 1px solid #ddd;
@@ -93,12 +93,19 @@ input[type="range"]{
 	cursor: ew-resize;
 }
 
-.area > *{
+.area{
 	display: grid;
-	grid-auto-flow: column;
 	grid-template-columns: 1fr 1fr;
 	text-align: center;
-	margin: 20px 10px;
+	gap: 30px 10px;
+	align-items: center;
+}
+.result{
+	color: blue;
+	font-weight: bold;
+}
+.dark .result{
+	color: lime;
 }
 
 </style>
@@ -115,7 +122,7 @@ input[type="range"]{
 		let result = parseFloat(money) * (((100+parseFloat(percent))/100) ** parseInt(days))
 		result = (Math.round(result * 100)/100).toFixed(2);
 
-		document.getElementById("answer").innerHTML = result + `<br/> (${stackstr(result)})`
+		document.getElementById("answer").innerHTML = `<span class="result">${result}</span>` + `<br/> <span style="font-size: 1rem;">(${stackstr(result)})</span>`
 	}
 	function tostacks(el){
 		el.nextElementSibling.innerHTML = `(${stackstr(el.value)})`
@@ -126,34 +133,32 @@ input[type="range"]{
 	<h2>Калькулятор кредита</h2>
 	<hr>
 	<div class="area">
+		<span>Сумма кредита:</span>
 		<div>
-			<span>Сумма кредита:</span>
-			<div style="display: grid; gap: 10px;">
-				<input type="number" min="0" value="0" onchange="calculate(); tostacks(this)" name="credit-sum">
-				<span></span>
-			</div>
+			<input type="number" min="0" value="0" onchange="calculate(); tostacks(this)" name="credit-sum">
+			<div style="margin-top: 10px; font-size: 1rem;"></div>
 		</div>
-		<div>
-			<span>Процент:</span>
-			<div class="number">
-				<button class="number-minus">-</button>
-				<input type="number" min="0" max="100" value="0" onchange="calculate()" name="percent">
-				<button class="number-plus" type="button">+</button>
-			</div>
+		
+		<span>Процент:</span>
+		<div class="number">
+			<button class="number-minus">-</button>
+			<input type="number" min="0" max="100" value="0" onchange="calculate()" name="percent">
+			<button class="number-plus" type="button">+</button>
 		</div>
-		<div>
-			<span>Количество дней:</span>
-			<div style="display: grid">
-				<input type="range" min="0" value="0" max="100" oninput="this.nextElementSibling.innerHTML=this.value" onchange="calculate()" name="days">
-				<span>0</span>
-			</div>
-		</div>
-		<hr>
-		<div>
-			<span>Вы будете должны:</span>
-			<span id="answer">0</span>
+		
+		<span>Количество дней:</span>
+		<div style="display: grid">
+			<input type="range" min="0" value="0" max="100" oninput="this.nextElementSibling.value=this.value" onchange="calculate()" name="days">
+			<input type="number" min="0" value="0" style="font-size: 1rem;height: 25px;line-height: 25px;text-align: center;width: 55px; margin-top: 5px; text-indent: 0;" onchange="this.previousElementSibling.value = this.value">
 		</div>
 	</div>
+
+	<p><hr></p>
+	<div class="area">
+		<span>Вы будете должны:</span>
+		<span id="answer"><span class="result">0</span></span>
+	</div>
+	
 <script>
 	if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 		document.body.classList.add("dark")
@@ -167,7 +172,7 @@ input[type="range"]{
 				timerMinus = setInterval(function(){
 					div.querySelector('input').stepDown();
 				}, 100);
-			}, 100)
+			}, 200)
 		}
 		function mouseup_minus(){
 			div.querySelector('input').onchange();
@@ -176,8 +181,6 @@ input[type="range"]{
 		}
 		div.querySelector('.number-minus').addEventListener('mousedown', mousedown_minus)
 		div.querySelector('.number-minus').addEventListener('mouseup', mouseup_minus)
-		div.querySelector('.number-minus').addEventListener('touchstart', mousedown_minus)
-		div.querySelector('.number-minus').addEventListener('touchend', mouseup_minus)
 
 		function mousedown_plus(){
 			div.querySelector('input').stepUp();
@@ -185,7 +188,7 @@ input[type="range"]{
 				timerPlus = setInterval(function(){
 					div.querySelector('input').stepUp();
 				}, 100);
-			}, 100)
+			}, 200)
 		}
 		function mouseup_plus(){
 			div.querySelector('input').onchange();
@@ -194,8 +197,6 @@ input[type="range"]{
 		}
 		div.querySelector('.number-plus').addEventListener('mousedown', mousedown_plus)
 		div.querySelector('.number-plus').addEventListener('mouseup', mouseup_plus)
-		div.querySelector('.number-plus').addEventListener('touchstart', mousedown_plus)
-		div.querySelector('.number-plus').addEventListener('touchend', mouseup_plus)
 	})
 </script>
 </body>
