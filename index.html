@@ -114,9 +114,9 @@ input[type="range"]{
 </style>
 <script>
 	function stackstr(val){
-		let stacks_ostatok = parseInt(val % 64)
-		let stacks_cell = parseInt((val - stacks_ostatok) / 64)
-		return `${stacks_cell} стаков и ${stacks_ostatok}`
+		let stacks_ostatok = val % 64
+		let stacks_cell = (val - stacks_ostatok) / 64
+		return `${stacks_cell} стаков и ${Math.round(stacks_ostatok)}`
 	}
 	function calculate(){
 		let money = document.querySelector("input[name=credit-sum]").value
@@ -152,7 +152,7 @@ input[type="range"]{
 		<span>Количество дней:</span>
 		<div style="display: grid">
 			<input type="range" min="0" value="0" max="100" oninput="this.nextElementSibling.value=this.value" onchange="calculate()" name="days">
-			<input type="number" min="0" value="0" style="font-size: 1rem;height: 25px;line-height: 25px;text-align: center;width: 55px; margin-top: 5px; text-indent: 0;" onchange="this.previousElementSibling.value = this.value">
+			<input type="number" min="0" value="0" style="font-size: 1rem;height: 25px;line-height: 25px;text-align: center;width: 55px; margin-top: 5px; text-indent: 0;" onchange="this.previousElementSibling.value = this.value; this.previousElementSibling.onchange();">
 		</div>
 	</div>
 
